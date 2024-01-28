@@ -5,6 +5,9 @@ import com.smetering.in.ConsoleActions;
 import com.smetering.in.ConsoleAdapter;
 import com.smetering.out.storages.UserStorage;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
 /**
  * Главный класс прилоежения.
  * При запуске приложение создаётся учётная запись суперпользователя "admin".
@@ -27,20 +30,25 @@ public class Main {
 
         String adminPassword = args.length == 0 ? "admin" : args[0];
 
-        ConsoleActions actions = new ConsoleActions(authService,
-                registerService,
-                adminPassword,
-                activityRecordsDisplay,
-                actualReadingsDisplay,
-                allReadingsDisplay,
-                meterService,
-                specificReadingsDisplay,
-                usersDisplay,
-                readingSubmitterService);
+        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 
-        ConsoleAdapter consoleAdapter = new ConsoleAdapter(actions);
+        try (scanner) {
+            ConsoleActions actions = new ConsoleActions(authService,
+                    registerService,
+                    adminPassword,
+                    activityRecordsDisplay,
+                    actualReadingsDisplay,
+                    allReadingsDisplay,
+                    meterService,
+                    specificReadingsDisplay,
+                    usersDisplay,
+                    readingSubmitterService,
+                    scanner);
 
-        consoleAdapter.serve();
+            ConsoleAdapter consoleAdapter = new ConsoleAdapter(actions, scanner);
+
+            consoleAdapter.serve();
+        }
     }
 
 }

@@ -6,6 +6,8 @@ import com.smetering.domain.usecases.*;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -19,6 +21,7 @@ public class ConsoleActions {
     private final SpecificReadingsDisplay specificReadingsDisplay;
     private final UsersDisplay usersDisplay;
     private final ReadingSubmitterService readingSubmitterService;
+    private final Scanner scanner;
 
 
     public ConsoleActions(AuthService authService,
@@ -29,7 +32,8 @@ public class ConsoleActions {
                           AllReadingsDisplay allReadingsDisplay,
                           MeterService meterService,
                           SpecificReadingsDisplay specificReadingsDisplay,
-                          UsersDisplay usersDisplay, ReadingSubmitterService readingSubmitterService) {
+                          UsersDisplay usersDisplay, ReadingSubmitterService readingSubmitterService,
+                          Scanner scanner) {
         this.authService = authService;
         this.registerService = registerService;
         this.activityRecordsDisplay = activityRecordsDisplay;
@@ -39,6 +43,7 @@ public class ConsoleActions {
         this.specificReadingsDisplay = specificReadingsDisplay;
         this.usersDisplay = usersDisplay;
         this.readingSubmitterService = readingSubmitterService;
+        this.scanner = scanner;
         registerService.register("admin", adminPassword);
     }
 
@@ -48,7 +53,7 @@ public class ConsoleActions {
      * @return зарегистрированного пользователя
      */
     public User register() {
-        try(Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
+
             System.out.println("Введите имя пользователя:");
             String username = scanner.nextLine();
             System.out.println("Введите пароль:");
@@ -62,7 +67,7 @@ public class ConsoleActions {
                 System.out.println("Регистрация неуспешна. Этот пользователь уже существует!");
                 return null;
             }
-        }
+
     }
 
     /**
@@ -71,21 +76,20 @@ public class ConsoleActions {
      * @return пользователя
      */
     public User login() {
-        try(Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-            System.out.println("Введите имя пользователя:");
-            String username = scanner.nextLine();
-            System.out.println("Введите пароль:");
-            String password = scanner.nextLine();
+        System.out.println("Введите имя пользователя:");
+        String username = scanner.nextLine();
+        System.out.println("Введите пароль:");
+        String password = scanner.nextLine();
 
-            Optional<User> user = authService.login(username, password);
-            if (user.isPresent()) {
-                System.out.println("Успешная авторизация");
-                return user.get();
-            } else {
-                System.out.println("Неверное имя пользователя или пароль.");
-                return null;
-            }
+        Optional<User> user = authService.login(username, password);
+        if (user.isPresent()) {
+            System.out.println("Успешная авторизация");
+            return user.get();
+        } else {
+            System.out.println("Неверное имя пользователя или пароль.");
+            return null;
         }
+
     }
 
     /**
@@ -127,7 +131,7 @@ public class ConsoleActions {
      * Вывод в консоль всех покааний счётчиков пользователя
      * @param user пользователь
      */
-    public void showAllReading(User user) {
+    public void showAllReadings(User user) {
         System.out.println("Все показания счётчиков для пользователя " + user.getName() + ":");
         allReadingsDisplay.showAllValues(user).forEach(System.out::println);
     }
@@ -138,24 +142,21 @@ public class ConsoleActions {
      * @return прибор учёта
      */
     public Meter registerMeter(User user) {
-        try(Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-            System.out.println("Введите смещение относитель GMT в минутах:");
-            String inputTimeZoneOffset = scanner.nextLine();
-            System.out.println("Введите серийный номер прибора учёта:");
-            String serialNumber = scanner.nextLine();
-            System.out.println("Введите единицу измерения:");
-            String unitSymbol = scanner.nextLine();
-            System.out.println("Введите множитель единицы измерения:");
-            String unitMultiplier = scanner.nextLine();
-            System.out.println("Введите тип измерения:");
-            String measurementType = scanner.nextLine();
-            scanner.nextLine();
+        System.out.println("Введите смещение относитель GMT в минутах:");
+        String inputTimeZoneOffset = scanner.nextLine();
+        System.out.println("Введите серийный номер прибора учёта:");
+        String serialNumber = scanner.nextLine();
+        System.out.println("Введите единицу измерения:");
+        String unitSymbol = scanner.nextLine();
+        System.out.println("Введите множитель единицы измерения:");
+        String unitMultiplier = scanner.nextLine();
+        System.out.println("Введите тип измерения:");
+        String measurementType = scanner.nextLine();
 
-            return meterService
-                    .registerMeter(user, Double.valueOf(inputTimeZoneOffset), serialNumber, unitSymbol, unitMultiplier, measurementType)
-                    .get();
+        return meterService
+                .registerMeter(user, Double.valueOf(inputTimeZoneOffset), serialNumber, unitSymbol, unitMultiplier, measurementType)
+                .get();
 
-        }
     }
 
     /**
@@ -163,24 +164,28 @@ public class ConsoleActions {
      * @param user пользователь
      */
     public void showSpecificValues(User user) {
-        try(Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-            System.out.println("Введите номер месяца:");
-            String inputMonth = scanner.nextLine();
-            System.out.println("Введите год");
-            String inputYear = scanner.nextLine();
-            scanner.nextLine();
+        System.out.println("Введите номер месяца:");
+        String inputMonth = scanner.nextLine();
+        System.out.println("Введите год");
+        String inputYear = scanner.nextLine();
+        scanner.nextLine();
 
-            System.out.println("История действий пользователя " + user.getName() + ":");
-            specificReadingsDisplay.showSpecificValues(user, Month.of(Integer.parseInt(inputMonth)), Integer.parseInt(inputYear)).forEach(System.out::println);
-        }
+        System.out.println("История действий пользователя " + user.getName() + ":");
+        specificReadingsDisplay.showSpecificValues(user, Month.of(Integer.parseInt(inputMonth)), Integer.parseInt(inputYear)).forEach(System.out::println);
     }
 
     /**
      * Вывести список всех зарегистрированных пользователей
      */
-    public void showAllUsers() {
+    public List<User> showAllUsers() {
         System.out.println("Список всех зарегистрированных пользователей:");
-        usersDisplay.get().forEach(System.out::println);
+        List<User> usersToShow = new ArrayList<>(usersDisplay.get().stream().toList());
+
+        for (int i = 0; i < usersToShow.size(); i++) {
+            System.out.println(i + ". " + usersToShow.get(i).toString());
+        }
+
+        return usersToShow;
     }
 
     /**
@@ -190,12 +195,10 @@ public class ConsoleActions {
      * @param meter прибор учёта
      */
     public void submitReading(User user, Meter meter) {
-        try(Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-            System.out.println("Введите значение показаний:");
-            String value = scanner.nextLine();
+        System.out.println("Введите значение показаний:");
+        String value = scanner.nextLine();
 
-            readingSubmitterService.submitMeasurementValue(user, meter, value);
-        }
+        readingSubmitterService.submitMeasurementValue(user, meter, value);
     }
 
 }

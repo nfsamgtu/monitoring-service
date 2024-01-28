@@ -1,7 +1,5 @@
 package com.smetering.domain.entities;
 
-import com.smetering.domain.entities.enums.UnitMultiplier;
-import com.smetering.domain.entities.enums.UnitSymbol;
 
 /**
  * Устройство учета, которое выполняет измерительную функцию в точке поставки.
@@ -16,7 +14,6 @@ public class Meter extends IdentifiedObject {
     private final Double timeZoneOffset;
     private final String serialNumber;
     private final Measurement measurement;
-
 
     public Meter(Double timeZoneOffset,
                  String serialNumber,
@@ -40,6 +37,16 @@ public class Meter extends IdentifiedObject {
 
     public Measurement getMeasurement() {
         return measurement;
+    }
+
+    @Override
+    public String toString() {
+        return "Meter{" +
+                "mRID=" + this.getmRID() + ", " +
+                "serialNumber='" + this.serialNumber + ", " +
+                "unitSymbol='" + this.getMeasurement().getUnitSymbol() + ", " +
+                "unitMultiplier='" + this.getMeasurement().getUnitMultiplier() + ", " +
+                '}';
     }
 
 }

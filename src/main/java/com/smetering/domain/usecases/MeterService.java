@@ -3,7 +3,6 @@ package com.smetering.domain.usecases;
 import com.smetering.out.repositories.GenericRepository;
 import com.smetering.domain.entities.Meter;
 import com.smetering.domain.entities.User;
-import com.smetering.domain.entities.enums.UnitMultiplier;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

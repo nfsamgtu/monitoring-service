@@ -1,5 +1,6 @@
 package com.smetering.domain.usecases;
 
+import com.smetering.domain.entities.enums.Role;
 import com.smetering.out.repositories.GenericRepository;
 import com.smetering.domain.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -31,6 +32,9 @@ public final class RegisterService {
         User newUser = new User(hashedPassword);
         newUser.setName(name);
         newUser.addActivityRecord("Пользователь " + name + " зарегистрирован в " + LocalDateTime.now());
+        if (newUser.getName().equals("admin")) {
+            newUser.setRole(Role.ROLE_ADMIN);
+        }
         repository.persist(newUser);
 
         return Optional.of(newUser);

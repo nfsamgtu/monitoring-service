@@ -52,4 +52,13 @@ public class User extends IdentifiedObject {
         this.activityHistory.add(record);
     }
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "mRID=" + getmRID() + ", " +
+                "name=" + getName() + ", " +
+                "role=" + getRole() +
+                '}';
+    }
 }
