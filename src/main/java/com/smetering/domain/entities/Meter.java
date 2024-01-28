@@ -13,7 +13,7 @@ public class Meter extends IdentifiedObject {
 
     private final Double timeZoneOffset;
     private final String serialNumber;
-    private final Measurement measurement;
+    private Measurement measurement;
 
     public Meter(Double timeZoneOffset,
                  String serialNumber,
@@ -38,6 +38,11 @@ public class Meter extends IdentifiedObject {
     public Measurement getMeasurement() {
         return measurement;
     }
+
+    public void setMeasurement(Measurement measurement) {
+        this.measurement = measurement;
+    }
+
 
     @Override
     public String toString() {

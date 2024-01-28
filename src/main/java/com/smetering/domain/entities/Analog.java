@@ -24,7 +24,7 @@ public class Analog extends Measurement {
     private final List<AnalogValue> analogValues;
 
 
-    protected Analog(String unitSymbol,
+    public Analog(String unitSymbol,
                      String unitMultiplier,
                      String measurementType,
                      Boolean positiveFlowIn,

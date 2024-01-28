@@ -21,12 +21,12 @@ public class Discrete extends Measurement {
     private final Long normalValue;
     private final List<DiscreteValue> discreteValues;
 
-    protected Discrete(String unitSymbol,
-                       String unitMultiplier,
-                       String measurementType,
-                       Long maxValue,
-                       Long minValue,
-                       Long normalValue) {
+    public Discrete(String unitSymbol,
+                    String unitMultiplier,
+                    String measurementType,
+                    Long maxValue,
+                    Long minValue,
+                    Long normalValue) {
         super(unitSymbol, unitMultiplier, measurementType);
         this.discreteValues = new ArrayList<>();
         this.maxValue = maxValue;
