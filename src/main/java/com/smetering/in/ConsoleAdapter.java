@@ -100,6 +100,8 @@ public class ConsoleAdapter {
                         actions.showSpecificValues(userToShowSpecificReading);
                         break;
                     case "0":
+                        actions.logout(activeUser);
+                        activeUser = null;
                         return;
                     default:
                         System.out.println("Неверный выбор. Повторите.");
@@ -149,7 +151,9 @@ public class ConsoleAdapter {
                         actions.showSpecificValues(activeUser);
                         break;
                     case "0":
-                        return; // Выход из цикла
+                        actions.logout(activeUser);
+                        this.activeUser = null;
+                        return;
                     default:
                         System.out.println("Неверный выбор. Повторите.");
                 }
