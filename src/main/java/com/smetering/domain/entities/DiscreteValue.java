@@ -12,7 +12,7 @@ public class DiscreteValue extends MeasurementValue {
     private final Long value;
     private final Discrete discrete;
 
-    protected DiscreteValue(Long value, Discrete discrete) {
+    public DiscreteValue(Long value, Discrete discrete) {
         super();
         this.value = value;
         this.discrete = discrete;

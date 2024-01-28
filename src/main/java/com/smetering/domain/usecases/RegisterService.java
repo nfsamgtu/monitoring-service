@@ -1,6 +1,6 @@
 package com.smetering.domain.usecases;
 
-import com.smetering.data.repositories.GenericRepository;
+import com.smetering.out.repositories.GenericRepository;
 import com.smetering.domain.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public final class RegisterService {
-
     private final GenericRepository<User, UUID> repository;
+
 
     public RegisterService(GenericRepository<User, UUID> repository) {
         this.repository = repository;
@@ -26,7 +26,7 @@ public final class RegisterService {
     public Optional<User> register(String name, String password) {
         if (repository.get().stream().anyMatch(u -> u.getName().equals(name))) {
             return Optional.empty();
-        };
+        }
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         User newUser = new User(hashedPassword);
         newUser.setName(name);

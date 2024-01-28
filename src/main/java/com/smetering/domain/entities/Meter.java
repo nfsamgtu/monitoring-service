@@ -20,8 +20,8 @@ public class Meter extends IdentifiedObject {
 
     public Meter(Double timeZoneOffset,
                  String serialNumber,
-                 UnitSymbol unitSymbol,
-                 UnitMultiplier unitMultiplier,
+                 String unitSymbol,
+                 String unitMultiplier,
                  String measurementType) {
         super();
         this.timeZoneOffset = timeZoneOffset;

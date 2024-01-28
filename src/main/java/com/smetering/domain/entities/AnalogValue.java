@@ -12,7 +12,7 @@ public class AnalogValue extends MeasurementValue {
     private final Double value;
     private final Analog analog;
 
-    protected AnalogValue(Double value, Analog analog) {
+    public AnalogValue(Double value, Analog analog) {
         super();
         this.value = value;
         this.analog = analog;

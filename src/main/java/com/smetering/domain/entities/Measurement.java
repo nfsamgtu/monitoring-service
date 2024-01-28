@@ -13,11 +13,11 @@ import com.smetering.domain.entities.enums.UnitSymbol;
  */
 public abstract class Measurement extends IdentifiedObject {
 
-    private final UnitSymbol unitSymbol;
-    private final UnitMultiplier unitMultiplier;
+    private final String unitSymbol;
+    private final String unitMultiplier;
     private final String measurementType;
 
-    protected Measurement(UnitSymbol unitSymbol, UnitMultiplier unitMultiplier, String measurementType) {
+    protected Measurement(String unitSymbol, String unitMultiplier, String measurementType) {
         super();
         this.unitSymbol = unitSymbol;
         this.unitMultiplier = unitMultiplier;
@@ -25,11 +25,11 @@ public abstract class Measurement extends IdentifiedObject {
     }
 
 
-    public UnitSymbol getUnitSymbol() {
+    public String getUnitSymbol() {
         return unitSymbol;
     }
 
-    public UnitMultiplier getUnitMultiplier() {
+    public String getUnitMultiplier() {
         return unitMultiplier;
     }
 

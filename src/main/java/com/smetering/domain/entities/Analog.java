@@ -23,8 +23,9 @@ public class Analog extends Measurement {
     private final Double normalValue;
     private final List<AnalogValue> analogValues;
 
-    protected Analog(UnitSymbol unitSymbol,
-                     UnitMultiplier unitMultiplier,
+
+    protected Analog(String unitSymbol,
+                     String unitMultiplier,
                      String measurementType,
                      Boolean positiveFlowIn,
                      Double maxValue,

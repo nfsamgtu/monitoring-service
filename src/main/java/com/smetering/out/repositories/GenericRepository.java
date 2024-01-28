@@ -1,4 +1,4 @@
-package com.smetering.data.repositories;
+package com.smetering.out.repositories;
 
 import java.util.Optional;
 import java.util.Set;

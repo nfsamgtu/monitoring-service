@@ -1,6 +1,6 @@
-package com.smetering.data.storages;
+package com.smetering.out.storages;
 
-import com.smetering.data.repositories.GenericRepository;
+import com.smetering.out.repositories.GenericRepository;
 import com.smetering.domain.entities.User;
 
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Класс, обеспечивающий хранение информационной модели учёта в оперативной памяти.
+ * Класс, обеспечивающий хранение информационной модели пользователей в оперативной памяти.
  */
-public class InMemoryStorage implements GenericRepository<User, UUID> {
+public class UserStorage implements GenericRepository<User, UUID> {
     private final Map<UUID, User> users = new HashMap<>();
 
     @Override

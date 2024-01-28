@@ -21,8 +21,8 @@ public class Discrete extends Measurement {
     private final Long normalValue;
     private final List<DiscreteValue> discreteValues;
 
-    protected Discrete(UnitSymbol unitSymbol,
-                       UnitMultiplier unitMultiplier,
+    protected Discrete(String unitSymbol,
+                       String unitMultiplier,
                        String measurementType,
                        Long maxValue,
                        Long minValue,

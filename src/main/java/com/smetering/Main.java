@@ -1,17 +1,46 @@
 package com.smetering;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.smetering.domain.usecases.*;
+import com.smetering.in.ConsoleActions;
+import com.smetering.in.ConsoleAdapter;
+import com.smetering.out.storages.UserStorage;
+
+/**
+ * Главный класс прилоежения.
+ * При запуске приложение создаётся учётная запись суперпользователя "admin".
+ * Пароль учётной записи суперпользователя следует указать в первом аргументе командной строки при запуске приложения.
+ * Если пароль суперпользователя не задан - пароль по умолчанию "admin".
+ */
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        UserStorage storage = new UserStorage();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        ActivityRecordsDisplay activityRecordsDisplay = new ActivityRecordsDisplay(storage);
+        ActualReadingsDisplay actualReadingsDisplay = new ActualReadingsDisplay(storage);
+        AllReadingsDisplay allReadingsDisplay = new AllReadingsDisplay(storage);
+        AuthService authService = new AuthService(storage);
+        MeterService meterService = new MeterService(storage);
+        ReadingSubmitterService readingSubmitterService = new ReadingSubmitterService(storage);
+        RegisterService registerService = new RegisterService(storage);
+        SpecificReadingsDisplay specificReadingsDisplay = new SpecificReadingsDisplay(storage);
+        UsersDisplay usersDisplay = new UsersDisplay(storage);
+
+        String adminPassword = args.length == 0 ? "admin" : args[0];
+
+        ConsoleActions actions = new ConsoleActions(authService,
+                registerService,
+                adminPassword,
+                activityRecordsDisplay,
+                actualReadingsDisplay,
+                allReadingsDisplay,
+                meterService,
+                specificReadingsDisplay,
+                usersDisplay,
+                readingSubmitterService);
+
+        ConsoleAdapter consoleAdapter = new ConsoleAdapter(actions);
+
+        consoleAdapter.serve();
     }
+
 }

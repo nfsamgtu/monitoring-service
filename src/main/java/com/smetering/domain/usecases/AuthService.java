@@ -1,6 +1,6 @@
 package com.smetering.domain.usecases;
 
-import com.smetering.data.repositories.GenericRepository;
+import com.smetering.out.repositories.GenericRepository;
 import com.smetering.domain.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -16,6 +16,7 @@ public class AuthService {
         this.repository = repository;
     }
 
+
     /**
      * Авторизация пользователя.
      *
@@ -28,9 +29,25 @@ public class AuthService {
         Optional<User> result = userOpt.filter(u -> BCrypt.checkpw(password, u.getHashedPassword()));
         if (result.isPresent()) {
             result.get().addActivityRecord("Пользователь " + result.get().getName() + " авторизован" + LocalDateTime.now());
-        } else
+        } else {
             userOpt.ifPresent(user -> user.addActivityRecord("Неуспешная попытка авторизации пользователя " + user.getName() + " " + LocalDateTime.now()));
+        }
 
         return result;
+    }
+
+    /**
+     * Логаут пользователя
+     *
+     * @param user пользователь
+     */
+    public void logout(User user) {
+        if (repository.get(user.getmRID()).isEmpty()) {
+            return;
+        }
+
+        User currentUser = repository.get(user.getmRID()).get();
+        currentUser.addActivityRecord("Пользователь " + user + " вышел из учётной записи в " + LocalDateTime.now());
+        repository.persist(currentUser);
     }
 }
